@@ -1,0 +1,66 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4434629 */
+  src: url('//at.alicdn.com/t/c/font_4434629_2kmj7dokhal.woff2?t=1707462002467') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4434629_2kmj7dokhal.woff?t=1707462002467') format('woff'),
+       url('//at.alicdn.com/t/c/font_4434629_2kmj7dokhal.ttf?t=1707462002467') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-zhuce:before {
+  content: "\e683";
+}
+
+.icon-wenzhang:before {
+  content: "\e610";
+}
+
+.icon-sinandengluyonghu:before {
+  content: "\e635";
+}
+
+.icon-shuyi_qunliao:before {
+  content: "\e661";
+}
+
+.icon-yonghutongji:before {
+  content: "\e620";
+}
+
+.icon-tupian:before {
+  content: "\e695";
+}
+
+.icon-wenzhang-copy:before {
+  content: "\e643";
+}
+
+.icon-yonghu:before {
+  content: "\e679";
+}
+
+.icon-tuichuquanping:before {
+  content: "\e8fa";
+}
+
+.icon-quanping:before {
+  content: "\eb11";
+}
+
+.icon-24gl-portraitMaleInfo2:before {
+  content: "\eb23";
+}
+
+.icon-shezhi:before {
+  content: "\e68c";
+}
+
+.icon-houtaishangpinguanli:before {
+  content: "\e603";
+}

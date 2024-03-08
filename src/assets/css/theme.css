@@ -1,0 +1,19 @@
+:root{
+    --bg:#f0eeee;
+    --order:#f0eeee;
+    --slide:#2b3539;
+    --card_bg:white;
+    --card_border:#e2e2e2;
+    --slide_sub_bg: #465257;
+    --slide_bg: #2e393d;
+}
+
+.dark{
+    --bg:#2a2a2a;
+    --order:#252525;
+    --slide:#1a1a1a;
+    --card_bg:black;
+    --card_border:#393939;
+    --slide_sub_bg: #2f2f2f;
+    --slide_bg: #282828;
+}
