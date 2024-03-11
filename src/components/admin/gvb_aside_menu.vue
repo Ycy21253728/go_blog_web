@@ -2,11 +2,14 @@
   <a-menu
     v-model:selectedKeys="selectedKeys"
     mode="inline"
+    multiple
     :inline-collapsed="false"
+    :open-keys="data.openKeys"
     @click="goto"
+    @openChange="onOpenChange"
   >
     <template v-for="menu in data.menuList" :key="menu.name">
-      <a-menu-item :key="menu.name" v-if="menu.children.length === 0">
+      <a-menu-item :key="menu" v-if="menu.children.length === 0">
         <template #icon>
           <i :class="'fa ' + menu.icon"></i>
         </template>
@@ -17,7 +20,7 @@
           <i :class="'fa ' + menu.icon"></i>
         </template>
         <template #title>{{ menu.title }}</template>
-        <a-menu-item v-for="sub_menu in menu.children" :key="sub_menu.name">
+        <a-menu-item v-for="sub_menu in menu.children" :key="sub_menu">
           <template #icon>
             <i :class="'fa ' + sub_menu.icon"></i>
           </template>
@@ -30,8 +33,10 @@
   
   <script setup>
 import { reactive, ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter,useRoute,onBeforeRouteUpdate } from "vue-router";
+import { useStore } from "@/stores/store";
 
+const store = useStore()
 const data = reactive({
   menuList: [
     {
@@ -56,29 +61,83 @@ const data = reactive({
       ],
     },
     {
-      id: 5,
-      icon: "fa-cog", // icon的图片 统一用 fa
-      title: "系统管理", // 菜单名称
-      name: "", // 路由名称
+      id: 4,
+      icon: "fa-user-circle-o", 
+      title: "图片管理", 
+      name: "", 
       children: [
         {
-          id: 6,
-          icon: "fa-cog", // icon的图片 统一用 fa
-          title: "系统配置", // 菜单名称
-          name: "system_list", // 路由名称
+          id: 5,
+          icon: "fa-user-circle", 
+          title: "图片列表", 
+          name: "image_list", 
         },
       ],
     },
+    {
+      id: 6,
+      icon: "fa-user-circle-o", 
+      title: "广告管理", 
+      name: "", 
+      children: [
+        {
+          id: 7,
+          icon: "fa-user-circle", 
+          title: "广告列表", 
+          name: "advert_list", 
+        },
+      ],
+    },
+  
   ],
+  openKeys: []
 });
-const selectedKeys = ref(["1"]);
+const selectedKeys = ref([]);
 const router = useRouter();
+const route = useRoute();
 
-function goto(event) {
+function goto(item,key,keyPath) {
+  store.addTab({
+    name:key.name,
+    title:key.title,
+  })
+  
   router.push({
-    name: event.key,
+    name: key.name,
   });
 }
+
+function onOpenChange(openKeys){
+  const latestOpenKey = openKeys.find(key => data.openKeys.indexOf(key) === -1);
+  data.openKeys=latestOpenKey ? [latestOpenKey] : []
+}
+
+function loadRoute(name){
+  if(name===undefined){
+    name=route.name
+  }
+  for (const menu of data.menuList) {
+    if(menu.name===name){
+      selectedKeys.value=[menu]
+      return
+    }
+    for (const subMenu of menu.children) {
+      if(subMenu.name===name){
+        selectedKeys.value=[subMenu]
+        data.openKeys=[menu.id]
+        return
+      }
+    }
+  }
+}
+
+onBeforeRouteUpdate((to,from,next)=>{
+  loadRoute(to.name)
+  next()
+})
+
+loadRoute()
+
 </script>
 
   <style>
@@ -93,6 +152,10 @@ function goto(event) {
 
 .ant-menu-sub.ant-menu-inline {
   background-color: var(--slide_sub_bg);
+}
+
+.ant-menu-submenu-selected{
+  color: inherit;
 }
 
 /* .ant-menu-inline .ant-menu-item {
