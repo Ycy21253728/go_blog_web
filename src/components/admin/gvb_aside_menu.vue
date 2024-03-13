@@ -88,6 +88,55 @@ const data = reactive({
         },
       ],
     },
+    {
+      id: 8,
+      icon: "fa-user-circle-o", 
+      title: "菜单管理", 
+      name: "", 
+      children: [
+        {
+          id: 9,
+          icon: "fa-user-circle", 
+          title: "菜单列表", 
+          name: "menu_list", 
+        },
+      ],
+    },
+    {
+      id: 10,
+      icon: "fa-user-circle-o", 
+      title: "日志管理", 
+      name: "", 
+      children: [
+        {
+          id: 11,
+          icon: "fa-user-circle", 
+          title: "日志列表", 
+          name: "log_list", 
+        },
+      ],
+    },
+    {
+      id:12,
+      icon: "fa-user-circle", 
+      title: "群聊消息", 
+      name: "chat_list",
+      children:[]
+    },
+    {
+      id:13,
+      icon: "fa-user-circle", 
+      title: "消息列表", 
+      name: "message_list",
+      children:[]
+    },
+    {
+      id:14,
+      icon: "fa-user-circle", 
+      title: "标签列表", 
+      name: "tag_list",
+      children:[]
+    },
   
   ],
   openKeys: []
@@ -96,14 +145,14 @@ const selectedKeys = ref([]);
 const router = useRouter();
 const route = useRoute();
 
-function goto(item,key,keyPath) {
+function goto(item) {
   store.addTab({
-    name:key.name,
-    title:key.title,
+    name:item.key.name,
+    title:item.key.title,
   })
   
   router.push({
-    name: key.name,
+    name: item.key.name,
   });
 }
 

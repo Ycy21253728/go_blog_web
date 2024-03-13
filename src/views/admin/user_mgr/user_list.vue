@@ -113,73 +113,58 @@
         </a-form-item>
       </a-form>
     </a-modal>
-    <GVBTable @delete="userDelete" :columns="data.columns" base-url="/api/users">
+    <GVBTable @delete="userDelete" :columns="data.columns" base-url="/api/users" like-title="搜索用户昵称" ref="gvbTable" :page-size="5">
       <template #add>
         <a-button type="primary" @click="data.modalVisible=true">添加</a-button>
       </template>
       <template #edit="{record}">
-        <a-button class="gvb_table_action update" type="primary" @click="updateModal(record)">编辑</a-button>
+        <a-button class="gvb_table_action update" @click="updateModal(record)" type="primary">编辑</a-button>
+      </template>
+      <template #cell="{column,record}">
+        <template v-if="column.key === 'avatar'">
+            <img class="gvb_table_avatar" :src="record.avatar" />
+          </template>
+      </template>
+      <template #filters>
+        <a-select 
+        class="gvb_select" 
+        v-model:value="filter" 
+        style="width: 200px" 
+        allowClear="true" 
+        @change="onFilter" 
+        :options="roleOptions" 
+        placeholder="选择权限">
+      </a-select>
       </template>
     </GVBTable>
   </div>
-  
 </template>
 
 <script setup>
 import GVBTable from "@/components/admin/gvb_table.vue"
-import { reactive,ref } from "vue";
-import {
-  userCreateApi,
-  updateUserNickNameApi,
-} from "@/api/user_api";
+import {reactive,ref} from "vue"
+import { updateUserNickNameApi,userCreateApi } from "@/api/user_api";
 import { message } from "ant-design-vue";
 
-const data = reactive({
-  modalVisible: false,
-  modalUpdateVisible: false,
-  columns: [
-    { title: "id", dataIndex: "id", key: "id" },
-    { title: "昵称", dataIndex: "nick_name", key: "nick_name" },
-    { title: "头像", dataIndex: "avatar", key: "avatar" },
-    { title: "邮箱", dataIndex: "email", key: "email" },
-    { title: "角色", dataIndex: "role", key: "role" },
-    { title: "注册来源", dataIndex: "sign_status", key: "sign_status" },
-    { title: "ip", dataIndex: "ip", key: "ip" },
-    { title: "地址", dataIndex: "addr", key: "addr" },
-    { title: "注册时间", dataIndex: "created_at", key: "created_at" },
-    { title: "操作", dataIndex: "action", key: "action" },
-  ],
-});
+//表单ref
+const formRef=ref(null)
 
-async function handleOk() {
-  try {
-    await formRef.value.validate();
-    let res = await userCreateApi(formState);
-    if (res.code) {
-      message.error(res.msg);
-      return;
-    }
-    message.success(res.msg);
-    data.modalVisible = false;
-    Object.assign(formState, _formState);
+const gvbTable=ref(null)
 
-    // 清除验证规则
-    formRef.value.clearValidate();
-    getData();
-  } catch (e) {}
-}
-
-// 更新用户
-async function update() {
-  data.modalUpdateVisible = false;
-  let res = await updateUserNickNameApi(formUpdateState);
-  if (res.code) {
-    message.error(res.msg);
-    return;
-  }
-  message.success(res.msg);
-  getData();
-}
+const roleOptions = [
+  {
+    value: 1,
+    label: "管理员",
+  },
+  {
+    value: 2,
+    label: "用户",
+  },
+  {
+    value: 3,
+    label: "游客",
+  },
+];
 
 const _formState = {
   user_name: "",
@@ -203,6 +188,29 @@ const formUpdateState = reactive({
   user_id: 0,
 });
 
+const filter=ref(undefined)
+
+function onFilter(){
+  gvbTable.value.ExportList({role: filter.value})
+}
+
+const data =reactive({
+  modalVisible: false,
+  modalUpdateVisible: false,
+  columns: [
+    { title: "id", dataIndex: "id", key: "id" },
+    { title: "昵称", dataIndex: "nick_name", key: "nick_name" },
+    { title: "头像", dataIndex: "avatar", key: "avatar" },
+    { title: "邮箱", dataIndex: "email", key: "email" },
+    { title: "角色", dataIndex: "role", key: "role" },
+    { title: "注册来源", dataIndex: "sign_status", key: "sign_status" },
+    { title: "ip", dataIndex: "ip", key: "ip" },
+    { title: "地址", dataIndex: "addr", key: "addr" },
+    { title: "注册时间", dataIndex: "created_at", key: "created_at" },
+    { title: "操作", dataIndex: "action", key: "action" },
+  ],
+})
+
 let validateRePassword = async (_rule, value) => {
   if (value === "") {
     return Promise.reject("Please input the password again");
@@ -213,24 +221,6 @@ let validateRePassword = async (_rule, value) => {
   }
 };
 
-// 表单ref
-const formRef = ref(null);
-
-const roleOptions = [
-  {
-    value: 1,
-    label: "管理员",
-  },
-  {
-    value: 2,
-    label: "用户",
-  },
-  {
-    value: 3,
-    label: "游客",
-  },
-];
-
 function userDelete(userIdList){
 
 }
@@ -240,6 +230,34 @@ function updateModal(record){
   formUpdateState.nick_name=record.nick_name
   formUpdateState.role=record.role_id
   formUpdateState.user_id=record.id
+}
+
+async function handleOk() {
+  try {
+    await formRef.value.validate();
+    let res = await userCreateApi(formState);
+    if (res.code) {
+      message.error(res.msg);
+      return;
+    }
+    message.success(res.msg);
+    data.modalVisible = false;
+    Object.assign(formState, _formState);
+
+    // 清除验证规则
+    formRef.value.clearValidate();
+    // getData();
+  } catch (e) {}
+}
+
+async function update(){
+  data.modalUpdateVisible=false
+  let res =await updateUserNickNameApi(formUpdateState)
+  if(res.code){
+    message.error(res.msg)
+    return
+  }
+  message.success(res.msg)
 }
 
 </script>
