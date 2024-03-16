@@ -64,9 +64,36 @@ const router = createRouter({
           component: () => import("../views/admin/tag_list.vue")
         },
         {
-          path: "system_list",
-          name: "system_list",
-          component: () => import("../views/admin/system_mgr/system_list.vue")
+          path: "system",
+          name: "system",
+          component: () => import("@/views/admin/system_mgr/system_base.vue"),
+          children: [
+            {
+              path: "site",
+              name: "system_site",
+              component: () => import("../views/admin/system_mgr/site_setting.vue")
+            },
+            {
+              path: "email",
+              name: "system_email",
+              component: () => import("../views/admin/system_mgr/email_setting.vue")
+            },
+            {
+              path: "qiniu",
+              name: "system_qiniu",
+              component: () => import("../views/admin/system_mgr/qiniu_setting.vue")
+            },
+            {
+              path: "qq",
+              name: "system_qq",
+              component: () => import("../views/admin/system_mgr/qq_setting.vue")
+            },
+            {
+              path: "jwt",
+              name: "system_jwt",
+              component: () => import("../views/admin/system_mgr/jwt_setting.vue")
+            },
+          ]
         },
       ]
     }

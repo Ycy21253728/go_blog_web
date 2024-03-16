@@ -33,10 +33,10 @@
   
   <script setup>
 import { reactive, ref } from "vue";
-import { useRouter,useRoute,onBeforeRouteUpdate } from "vue-router";
+import { useRouter, useRoute, onBeforeRouteUpdate } from "vue-router";
 import { useStore } from "@/stores/store";
 
-const store = useStore()
+const store = useStore();
 const data = reactive({
   menuList: [
     {
@@ -62,84 +62,121 @@ const data = reactive({
     },
     {
       id: 4,
-      icon: "fa-user-circle-o", 
-      title: "图片管理", 
-      name: "", 
+      icon: "fa-user-circle-o",
+      title: "图片管理",
+      name: "",
       children: [
         {
           id: 5,
-          icon: "fa-user-circle", 
-          title: "图片列表", 
-          name: "image_list", 
+          icon: "fa-user-circle",
+          title: "图片列表",
+          name: "image_list",
         },
       ],
     },
     {
       id: 6,
-      icon: "fa-user-circle-o", 
-      title: "广告管理", 
-      name: "", 
+      icon: "fa-user-circle-o",
+      title: "广告管理",
+      name: "",
       children: [
         {
           id: 7,
-          icon: "fa-user-circle", 
-          title: "广告列表", 
-          name: "advert_list", 
+          icon: "fa-user-circle",
+          title: "广告列表",
+          name: "advert_list",
         },
       ],
     },
     {
       id: 8,
-      icon: "fa-user-circle-o", 
-      title: "菜单管理", 
-      name: "", 
+      icon: "fa-user-circle-o",
+      title: "菜单管理",
+      name: "",
       children: [
         {
           id: 9,
-          icon: "fa-user-circle", 
-          title: "菜单列表", 
-          name: "menu_list", 
+          icon: "fa-user-circle",
+          title: "菜单列表",
+          name: "menu_list",
         },
       ],
     },
     {
       id: 10,
-      icon: "fa-user-circle-o", 
-      title: "日志管理", 
-      name: "", 
+      icon: "fa-user-circle-o",
+      title: "日志管理",
+      name: "",
       children: [
         {
           id: 11,
-          icon: "fa-user-circle", 
-          title: "日志列表", 
-          name: "log_list", 
+          icon: "fa-user-circle",
+          title: "日志列表",
+          name: "log_list",
         },
       ],
     },
     {
-      id:12,
-      icon: "fa-user-circle", 
-      title: "群聊消息", 
+      id: 12,
+      icon: "fa-user-circle",
+      title: "群聊消息",
       name: "chat_list",
-      children:[]
+      children: [],
     },
     {
-      id:13,
-      icon: "fa-user-circle", 
-      title: "消息列表", 
+      id: 13,
+      icon: "fa-user-circle",
+      title: "消息列表",
       name: "message_list",
-      children:[]
+      children: [],
     },
     {
-      id:14,
-      icon: "fa-user-circle", 
-      title: "标签列表", 
+      id: 14,
+      icon: "fa-user-circle",
+      title: "标签列表",
       name: "tag_list",
-      children:[]
+      children: [],
     },
-  
+    {
+      id: 15,
+      icon: "fa-user-circle",
+      title: "系统管理",
+      name: "",
+      children: [
+        {
+          id: 16,
+          icon: "fa-user-circle",
+          title: "网站设置",
+          name: "system_site",
+        },
+        {
+          id: 17,
+          icon: "fa-user-circle",
+          title: "邮箱设置",
+          name: "system_email",
+        },
+        {
+          id: 18,
+          icon: "fa-user-circle",
+          title: "七牛云设置",
+          name: "system_qiniu",
+        },
+        {
+          id: 19,
+          icon: "fa-user-circle",
+          title: "qq设置",
+          name: "system_qq",
+        },
+        {
+          id: 20,
+          icon: "fa-user-circle",
+          title: "jwt设置",
+          name: "system_jwt",
+        },
+      ],
+    },
   ],
-  openKeys: []
+  openKeys: [],
 });
 const selectedKeys = ref([]);
 const router = useRouter();
@@ -147,46 +184,47 @@ const route = useRoute();
 
 function goto(item) {
   store.addTab({
-    name:item.key.name,
-    title:item.key.title,
-  })
-  
+    name: item.key.name,
+    title: item.key.title,
+  });
+
   router.push({
     name: item.key.name,
   });
 }
 
-function onOpenChange(openKeys){
-  const latestOpenKey = openKeys.find(key => data.openKeys.indexOf(key) === -1);
-  data.openKeys=latestOpenKey ? [latestOpenKey] : []
+function onOpenChange(openKeys) {
+  const latestOpenKey = openKeys.find(
+    (key) => data.openKeys.indexOf(key) === -1
+  );
+  data.openKeys = latestOpenKey ? [latestOpenKey] : [];
 }
 
-function loadRoute(name){
-  if(name===undefined){
-    name=route.name
+function loadRoute(name) {
+  if (name === undefined) {
+    name = route.name;
   }
   for (const menu of data.menuList) {
-    if(menu.name===name){
-      selectedKeys.value=[menu]
-      return
+    if (menu.name === name) {
+      selectedKeys.value = [menu];
+      return;
     }
     for (const subMenu of menu.children) {
-      if(subMenu.name===name){
-        selectedKeys.value=[subMenu]
-        data.openKeys=[menu.id]
-        return
+      if (subMenu.name === name) {
+        selectedKeys.value = [subMenu];
+        data.openKeys = [menu.id];
+        return;
       }
     }
   }
 }
 
-onBeforeRouteUpdate((to,from,next)=>{
-  loadRoute(to.name)
-  next()
-})
+onBeforeRouteUpdate((to, from, next) => {
+  loadRoute(to.name);
+  next();
+});
 
-loadRoute()
-
+loadRoute();
 </script>
 
   <style>
@@ -203,7 +241,7 @@ loadRoute()
   background-color: var(--slide_sub_bg);
 }
 
-.ant-menu-submenu-selected{
+.ant-menu-submenu-selected {
   color: inherit;
 }
 
