@@ -9,10 +9,13 @@
     "preview": "vite preview --mode prod"
   },
   "dependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
+    "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "ant-design-vue": "^3.2.20",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
     "font-awesome": "^4.7.0",
+    "md-editor-v3": "^4.12.1",
     "pinia": "^2.1.7",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"

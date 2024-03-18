@@ -82,8 +82,12 @@ const props = defineProps({
   columns: {
     type: Array
   },
+  list: {
+    type: Array
+  },
   baseUrl: {
-    type: String
+    type: String,
+    default: ""
   },
   isAdd: {
     type: Boolean,
@@ -159,6 +163,11 @@ async function removeBatch() {
 
 // 获取列表页数据
 async function getData(params) {
+  if(props.baseUrl===""){
+    data.spinning=false
+    data.list=props.list
+    return
+  }
   data.spinning = true
   let res = await baseListApi(props.baseUrl, params)
   data.list = res.data.list
