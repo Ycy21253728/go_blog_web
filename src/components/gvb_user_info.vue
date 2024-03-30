@@ -37,6 +37,7 @@
 
 <script setup>
 import { useRoute,useRouter } from "vue-router";
+import { logoutApi } from "@/api/user_api";
 
 const router = useRouter();
 const route = useRoute();
@@ -47,10 +48,16 @@ const props = defineProps({
   },
 });
 
-function menuClick({ key }) {
+async function menuClick({ key }) {
   if (key === "logout") {
-    console.log("logout");
-    return;
+    let res = await logoutApi()
+    if(res.code){
+        message.error(res.msg)
+    }else{
+      message.success(res.msg)
+    }
+    await router.push({name:"login"})
+    return
   }
   if (key === "login") {
     router.push({

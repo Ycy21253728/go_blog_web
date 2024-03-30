@@ -24,6 +24,33 @@ const router = createRouter({
           component: () => import("../views/admin/home/home.vue")
         },
         {
+          path: "user_center",
+          name: "user_center",
+          redirect: "/admin/user_center/user_info",
+          children: [
+            {
+            path: "user_info",
+            name: "user_info",
+            component: () => import("../views/admin/user_center/user_info.vue")
+          },
+          {
+            path: "user_article_list",
+            name: "user_article_list",
+            component: () => import("../views/admin/user_center/user_create_article_list.vue")
+          },
+          {
+            path: "user_collects",
+            name: "user_collects",
+            component: () => import("../views/admin/user_center/user_collects.vue")
+          },
+          {
+            path: "user_messages",
+            name: "user_messages",
+            component: () => import("../views/admin/user_center/user_messages.vue")
+          },
+        ]
+        },
+        {
           path: "user_list",
           name: "user_list",
           component: () => import("../views/admin/user_mgr/user_list.vue")

@@ -47,16 +47,48 @@ const data = reactive({
       children: [],
     },
     {
+      id: 23,
+      icon: "fa-home",
+      title: "个人中心",
+      name: "user_center",
+      children: [
+        {
+          id: 24,
+          icon: "fa-home",
+          title: "我的信息",
+          name: "user_info",
+        },
+        {
+          id: 25,
+          icon: "fa-home",
+          title: "我的发布",
+          name: "user_article_list",
+        },
+        {
+          id: 26,
+          icon: "fa-home",
+          title: "我的收藏",
+          name: "user_collects",
+        },
+        {
+          id: 27,
+          icon: "fa-home",
+          title: "我的消息",
+          name: "user_messages",
+        },
+      ],
+    },
+    {
       id: 2,
-      icon: "fa-user-circle-o", // icon的图片 统一用 fa
-      title: "用户管理", // 菜单名称
-      name: "", // 路由名称
+      icon: "fa-user-circle-o",
+      title: "用户管理",
+      name: "",
       children: [
         {
           id: 3,
-          icon: "fa-user-circle", // icon的图片 统一用 fa
-          title: "用户列表", // 菜单名称
-          name: "user_list", // 路由名称
+          icon: "fa-user-circle",
+          title: "用户列表",
+          name: "user_list",
         },
       ],
     },

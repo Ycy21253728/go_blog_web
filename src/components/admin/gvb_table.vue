@@ -25,9 +25,9 @@
       <a-spin :spinning="data.spinning" tip="加载中..." :delay="300">
         <a-table
             :columns="props.columns"
-            :row-selection="{
+            :row-selection="props.isSelect?{
             selectedRowKeys: data.selectedRowKeys,
-            onChange: onSelectChange }"
+            onChange: onSelectChange }:undefined"
             :pagination="false"
             row-key="id"
             :data-source="data.list">
@@ -101,6 +101,10 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
+  isSelect:{
+    type: Boolean,
+    default: true
+  },
   filters: {
     type: Array,
   },
@@ -170,6 +174,10 @@ async function getData(params) {
   }
   data.spinning = true
   let res = await baseListApi(props.baseUrl, params)
+  if(res.data.list===undefined){
+    data.list=res.data
+    data.count=res.data.length
+  }
   data.list = res.data.list
   data.count = res.data.count
   data.spinning = false

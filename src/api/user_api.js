@@ -23,4 +23,8 @@ export function userRemoveBatchApi(id_list){
 //修改用户
 export function updateUserNickNameApi(data){
     return Service.put("/api/user_role",data) 
-}0.
+}
+
+export function logoutApi(){
+    return Service.post("/api/logout")
+}
