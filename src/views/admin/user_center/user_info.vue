@@ -247,7 +247,7 @@ import {
 } from "@/api/user_center_api";
 import { message } from "ant-design-vue";
 import { useRouter } from "vue-router";
-import { logoutApi } from "@/api/user_api";
+import { logout } from "@/utils/logout";
 
 const userInfo = reactive({
   addr: "",
@@ -387,15 +387,7 @@ async function updatePassword(){
     },500)
 }
 
-async function logout(){
-    let res = await logoutApi()
-    if(res.code){
-        message.error(res.msg)
-        return
-    }
-    message.success(res.msg)
-    await router.push({name:"login"})
-}
+
 </script>
 
 <style lang="scss">

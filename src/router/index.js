@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import {useStore} from "@/stores/store";
+import {message} from "ant-design-vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,6 +14,9 @@ const router = createRouter({
       path: "/admin",
       name: "admin",
       component: () => import("../views/admin/admin.vue"),
+      meta:{
+        is_login:true,
+      },
       children: [
         {
           path: "",
@@ -96,6 +101,11 @@ const router = createRouter({
           component: () => import("../views/admin/article_mgr/article_list.vue")
         },
         {
+          path: "comment_list",
+          name: "comment_list",
+          component: () => import("../views/admin/article_mgr/comment_list.vue")
+        },
+        {
           path: "add_article",
           name: "add_article",
           component: () => import("../views/admin/article_mgr/add_article.vue")
@@ -109,6 +119,7 @@ const router = createRouter({
           path: "system",
           name: "system",
           component: () => import("@/views/admin/system_mgr/system_base.vue"),
+          redirect:"/admin/system/site",
           children: [
             {
               path: "site",
@@ -144,3 +155,15 @@ const router = createRouter({
 
 export default router
 
+// 路由前置守卫
+router.beforeEach((to, from, next) => {
+  const store = useStore()
+  // 也可以请求一下后端的权限api
+  if (to.meta.is_login && store.userInfo.role === 0) {
+      message.warn("需要登录")
+      router.push({name: "login"})
+      return
+  }
+  // 放行
+  next()
+})

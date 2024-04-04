@@ -113,7 +113,7 @@
         </a-form-item>
       </a-form>
     </a-modal>
-    <GVBTable @delete="userDelete" :columns="data.columns" base-url="/api/users" like-title="搜索用户昵称" ref="gvbTable" :page-size="5">
+    <GVBTable @delete="userDelete" :columns="data.columns" base-url="/api/users" like-title="搜索用户昵称" ref="gvbTable">
       <template #add>
         <a-button type="primary" @click="data.modalVisible=true">添加</a-button>
       </template>
@@ -235,7 +235,10 @@ function updateModal(record){
 async function handleOk() {
   try {
     await formRef.value.validate();
-    let res = await userCreateApi(formState);
+  } catch (e) {
+    return
+  }
+  let res = await userCreateApi(formState);
     if (res.code) {
       message.error(res.msg);
       return;
@@ -246,8 +249,7 @@ async function handleOk() {
 
     // 清除验证规则
     formRef.value.clearValidate();
-    // getData();
-  } catch (e) {}
+    gvbTable.value.ExportList
 }
 
 async function update(){
@@ -258,6 +260,7 @@ async function update(){
     return
   }
   message.success(res.msg)
+  gvbTable.value.ExportList
 }
 
 </script>

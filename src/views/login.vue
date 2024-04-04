@@ -1,7 +1,7 @@
 <script setup>
 import { reactive } from "vue";
 import { message } from "ant-design-vue";
-import { emailLoginApi } from "@/api/user_api";
+import { emailLoginApi,getQQLoginLinkApi,qqLoginApi } from "@/api/user_api";
 import { parseToken } from "@/utils/jwt";
 import { useStore } from "@/stores/store";
 import { useRouter, useRoute } from "vue-router";
@@ -34,19 +34,63 @@ async function emailLogin() {
   userInfo.token = res.data;
   store.setUserInfo(userInfo);
 
-  const redirect_url = route.query.redirect_url
+  const redirect_url = route.query.redirect_url;
   if (redirect_url === undefined) {
     setTimeout(() => {
-      router.push({name: "home"})
-    }, 1000)
-    return
+      router.push({ name: "home" });
+    }, 200);
+    return;
   }
   setTimeout(() => {
-      router.push({path: redirect_url})
-    }, 1000)
+    router.push({ path: redirect_url });
+  }, 200);
 
   return;
 }
+
+// 获取qq登录的地址
+async function getQQLogin() {
+  let res = await getQQLoginLinkApi();
+  if (res.code) {
+    message.error(res.msg);
+    return;
+  }
+  location.href = res.data;
+}
+
+// QQ登录
+async function qqLogin() {
+  const query = route.query
+  // 判断是不是qq登录的请求
+  if (query.flag !== 'qq') {
+    return
+  }
+  const code = query.code
+  let res = await qqLoginApi(code)
+  if (res.code) {
+    message.error(res.msg)
+    return
+  }
+  message.success(res.msg)
+  let userInfo = parseToken(res.data)
+  userInfo.token = res.data
+  store.setUserInfo(userInfo)
+
+  let redirect_url = localStorage.getItem("redirect_url")
+  if (redirect_url === null) {
+    setTimeout(() => {
+      router.push({name: "home"})
+    }, 200)
+    return
+  }
+  setTimeout(() => {
+    router.push({path: redirect_url})
+    localStorage.removeItem("redirect_url")
+  }, 200)
+}
+
+qqLogin();
+
 </script>
 
 <template>
@@ -75,7 +119,11 @@ async function emailLogin() {
         </div>
         <div class="gvb_login_other">第三方登录</div>
         <div class="gvb_login_other_icons">
-          <img src="../assets/icon/qq.jpg" class="gvb_login_other_icon" />
+          <img
+            src="../assets/icon/qq.jpg"
+            @click="getQQLogin"
+            class="gvb_login_other_icon"
+          />
         </div>
       </div>
     </div>
@@ -84,7 +132,8 @@ async function emailLogin() {
 
 <style lang="scss">
 .gvb_login_bg {
-  background: url("https://img2.baidu.com/it/u=3250231179,2355478160&fm=253&fmt=auto&app=120&f=JPEG?w=1200&h=800")
+  // background: url("https://img2.baidu.com/it/u=3250231179,2355478160&fm=253&fmt=auto&app=120&f=JPEG?w=1200&h=800")
+  background: url("/bg.jpg")
     50% / cover no-repeat;
   width: 100%;
   height: 100%;

@@ -32,6 +32,13 @@ function isActive(item) {
 }
 // 切换路由
 function checkTab(item) {
+
+  if(item.parentTitle===undefined){
+    store.setCrumb([])
+  }else {
+    store.setCrumb([item.parentTitle,item.title])
+  }
+
   router.push({
     name: item.name,
     params: item.params,
@@ -62,7 +69,7 @@ function removeTabAll() {
   })
 }
 // 加载路由
-store.loadTabs()
+// store.loadTabs()
 // 监听刷新
 window.onbeforeunload = function () {
   // 保存

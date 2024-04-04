@@ -15,10 +15,10 @@
     </div>
     <div class="gvb_actions">
       <slot name="add">
-        <a-button type="primary" v-if="isAdd" @click="addModal">添加</a-button>
+        <!-- <a-button type="primary" v-if="isAdd" @click="addModal">添加</a-button> -->
       </slot>
       <slot name="batchRemove">
-        <a-button type="danger" @click="removeBatch" v-if="isDelete && data.selectedRowKeys.length">批量删除</a-button>
+        <a-button type="danger" @click="removeBatch" v-if="isDelete && isBatchDelete && data.selectedRowKeys.length">批量删除</a-button>
       </slot>
     </div>
     <div class="gvb_tables">
@@ -98,6 +98,10 @@ const props = defineProps({
     default: true
   },
   isDelete: {
+    type: Boolean,
+    default: true
+  },
+  isBatchDelete: {
     type: Boolean,
     default: true
   },

@@ -14,5 +14,13 @@ export function updateArticleApi(id,data){
 }
 
 export function getArticleContentApi(id){
-    return server.get("/api/articles/content/"+id)
+    return Service.get("/api/articles/content/"+id)
+}
+
+export function getArticleIDTitle(){
+    return Service.get("/api/article_id_title")
+}
+
+export function getArticleCalendarApi(){
+    return Service.get("/api/articles/calendar")
 }

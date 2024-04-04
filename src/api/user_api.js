@@ -28,3 +28,11 @@ export function updateUserNickNameApi(data){
 export function logoutApi(){
     return Service.post("/api/logout")
 }
+
+export function getQQLoginLinkApi(){
+    return Service.get("/api/qq_login_path")
+}
+
+export function qqLoginApi(code){
+    return Service.post("/api/login?code="+code)
+}
