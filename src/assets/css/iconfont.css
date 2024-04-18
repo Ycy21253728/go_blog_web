@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4434629 */
-  src: url('//at.alicdn.com/t/c/font_4434629_oddggs6zo8.woff2?t=1712157068836') format('woff2'),
-       url('//at.alicdn.com/t/c/font_4434629_oddggs6zo8.woff?t=1712157068836') format('woff'),
-       url('//at.alicdn.com/t/c/font_4434629_oddggs6zo8.ttf?t=1712157068836') format('truetype');
+  src: url('//at.alicdn.com/t/c/font_4434629_cl8pb0ao7ja.woff2?t=1712897707732') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4434629_cl8pb0ao7ja.woff?t=1712897707732') format('woff'),
+       url('//at.alicdn.com/t/c/font_4434629_cl8pb0ao7ja.ttf?t=1712897707732') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,22 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-dianzan:before {
+  content: "\e656";
+}
+
+.icon-shoucangxiao:before {
+  content: "\e8bc";
+}
+
+.icon-huojian:before {
+  content: "\e6ab";
+}
+
+.icon-icon-pinglun:before {
+  content: "\e622";
 }
 
 .icon-iconxiaoxi:before {

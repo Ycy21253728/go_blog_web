@@ -36,10 +36,15 @@ async function onSave() {
     return;
   }
   message.success(res.msg);
-  // 先切换到文章列表
-  router.push({
-    name: "article_list",
-  });
+
+  let url = route.query.redirect_url
+  if(url===undefined){
+    router.push({
+      name: "article_list"
+    })
+  }else{
+    router.push(url)
+  }
   // 删除添加文章的tab
   store.removeTab({ name: "edit_article" });
   return;

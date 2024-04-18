@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import {useStore} from "@/stores/store";
-import {message} from "ant-design-vue";
+import { useStore } from "@/stores/store";
+import { message } from "ant-design-vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,11 +11,43 @@ const router = createRouter({
       component: () => import("../views/login.vue")
     },
     {
+      path: "/",
+      name: "index_base",
+      component: () => import("../views/web/web.vue"),
+      children: [
+        {
+          path: "",
+          name: "index",
+          component: () => import("../views/web/index.vue"),
+        },
+        {
+          path: "news",
+          name: "news",
+          component: () => import("../views/web/news.vue"),
+        },
+        {
+          path: "search",
+          name: "search",
+          component: () => import("../views/web/search.vue"),
+        },
+        {
+          path: "chat",
+          name: "chat",
+          component: () => import("../views/web/chat.vue"),
+        },
+        {
+          path: "article/:id",
+          name: "article",
+          component: () => import("../views/web/article.vue"),
+        }
+      ]
+    },
+    {
       path: "/admin",
       name: "admin",
       component: () => import("../views/admin/admin.vue"),
-      meta:{
-        is_login:true,
+      meta: {
+        is_login: true,
       },
       children: [
         {
@@ -34,26 +66,26 @@ const router = createRouter({
           redirect: "/admin/user_center/user_info",
           children: [
             {
-            path: "user_info",
-            name: "user_info",
-            component: () => import("../views/admin/user_center/user_info.vue")
-          },
-          {
-            path: "user_article_list",
-            name: "user_article_list",
-            component: () => import("../views/admin/user_center/user_create_article_list.vue")
-          },
-          {
-            path: "user_collects",
-            name: "user_collects",
-            component: () => import("../views/admin/user_center/user_collects.vue")
-          },
-          {
-            path: "user_messages",
-            name: "user_messages",
-            component: () => import("../views/admin/user_center/user_messages.vue")
-          },
-        ]
+              path: "user_info",
+              name: "user_info",
+              component: () => import("../views/admin/user_center/user_info.vue")
+            },
+            {
+              path: "user_article_list",
+              name: "user_article_list",
+              component: () => import("../views/admin/user_center/user_create_article_list.vue")
+            },
+            {
+              path: "user_collects",
+              name: "user_collects",
+              component: () => import("../views/admin/user_center/user_collects.vue")
+            },
+            {
+              path: "user_messages",
+              name: "user_messages",
+              component: () => import("../views/admin/user_center/user_messages.vue")
+            },
+          ]
         },
         {
           path: "user_list",
@@ -119,7 +151,7 @@ const router = createRouter({
           path: "system",
           name: "system",
           component: () => import("@/views/admin/system_mgr/system_base.vue"),
-          redirect:"/admin/system/site",
+          redirect: "/admin/system/site",
           children: [
             {
               path: "site",
@@ -160,9 +192,9 @@ router.beforeEach((to, from, next) => {
   const store = useStore()
   // 也可以请求一下后端的权限api
   if (to.meta.is_login && store.userInfo.role === 0) {
-      message.warn("需要登录")
-      router.push({name: "login"})
-      return
+    message.warn("需要登录")
+    router.push({ name: "login" })
+    return
   }
   // 放行
   next()

@@ -23,7 +23,7 @@ store.loadTabs()
         </div>
         <div class="right">
           <div class="icon_actions">
-            <i class="fa fa-home"></i>
+            <router-link :to="{name:'index'}"><i class="fa fa-home"></i></router-link>
             <GVBTheme></GVBTheme>
             <GVBFullScreen></GVBFullScreen>
           </div>

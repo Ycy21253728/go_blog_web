@@ -230,20 +230,20 @@
       router.push({
       name: "edit_article",
       params: {
-        id: record.id
+        id: record.record.id
       },
       query: {
-        title: record.title
+        title: record.record.title
       }
     })
     store.addTab({
       name: "edit_article",
       title: "编辑文章",
       params: {
-        id: record.id
+        id: record.record.id
       },
       query: {
-        title: record.title
+        title: record.record.title
       }
     })
   }

@@ -51,9 +51,9 @@
                 <img :src="item.path" alt="" height="30" style="border-radius: 5px; margin-right: 10px">
                 <span>{{ item.name }}</span>
               </a-select-option>
-              <template #tagRender="{ value: label }">
+              <!-- <template #tagRender="{ value: label }">
                 <img :src="getLabel(label)" height="30" style="border-radius: 5px; margin-right: 5px"/>
-              </template>
+              </template> -->
             </a-select>
           </a-form-item>
   
@@ -131,6 +131,7 @@
   
   // 选中之后的回显
   function getLabel(label) {
+    console.log(label)
     return label[0].props.src
   }
   // 添加菜单，更新菜单
